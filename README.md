@@ -31,7 +31,7 @@ Test an app, find what is wrong, then patch it. Each episode is a numbered folde
 
 | # | Title | Video | Code |
 |---|-------|-------|------|
-| 1 | Patched EP 1: My ASP.NET App | _link after publishing_ | [`episode1`](./patched/episode1) |
+| 1 | Patched EP1: My ASP.NET App | _link after publishing_ | [`episode1`](./patched/episode1) |
 
 ## Before and after
 
