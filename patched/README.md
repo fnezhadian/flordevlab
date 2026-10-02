@@ -9,7 +9,7 @@ A series from [Flor's Lab](https://www.youtube.com/@flordevlab): test an app, fi
 
 | # | Title | Folder | Tags |
 |---|-------|--------|------|
-| 1 | Patched EP 1: My ASP.NET App | [`episode1`](./episode1) | `patched-episode1-before`, `patched-episode1-after` |
+| 1 | Patched EP1: My ASP.NET App | [`episode1`](./episode1) | `patched-episode1-before`, `patched-episode1-after` |
 
 ## Folder convention
 
