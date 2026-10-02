@@ -29,7 +29,7 @@ Each episode that breaks something and then fixes it has two Git tags:
 | `epXX-after`  | the app after the fixes (patched) |
 
 Compare them on GitHub to see exactly what changed:
-`https://github.com/<your-username>/flordevlab/compare/ep01-before...ep01-after`
+`https://github.com/fnezhadian/flordevlab/compare/ep01-before...ep01-after`
 
 ## Episodes
 
