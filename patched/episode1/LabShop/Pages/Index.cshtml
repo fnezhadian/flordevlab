@@ -1,0 +1,22 @@
+@page
+@model IndexModel
+@using System.Security.Claims
+@{
+    ViewData["Title"] = "Lab Shop";
+}
+
+<h1>Lab Shop</h1>
+
+@if (User.Identity?.IsAuthenticated == true)
+{
+    <p>Signed in as <strong>@User.Identity.Name</strong> (@User.FindFirst(ClaimTypes.Role)?.Value)</p>
+    <form method="post" asp-page="/Logout">
+        <button class="btn btn-outline-secondary btn-sm" type="submit">Sign out</button>
+    </form>
+}
+else
+{
+    <p>You are not signed in. <a asp-page="/Login">Sign in</a></p>
+}
+
+<p><a asp-page="/Products">Browse products</a></p>

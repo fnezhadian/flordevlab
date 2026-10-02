@@ -1,0 +1,32 @@
+@page
+@model ProductsModel
+@{
+    ViewData["Title"] = "Products";
+}
+
+<h1>Products</h1>
+
+<form method="get" class="mb-3" style="max-width: 480px;">
+    <input name="Search" value="@Model.Search" class="form-control" placeholder="Search products..." />
+</form>
+
+@if (Model.Error != null)
+{
+    <div class="alert alert-danger">@Model.Error</div>
+}
+
+<table class="table">
+    <thead>
+        <tr><th>Name</th><th>Category</th><th>Price</th></tr>
+    </thead>
+    <tbody>
+        @foreach (var p in Model.Results)
+        {
+            <tr>
+                <td>@p.Name</td>
+                <td>@p.Category</td>
+                <td>@p.Price</td>
+            </tr>
+        }
+    </tbody>
+</table>
