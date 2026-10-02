@@ -12,11 +12,11 @@ Code that goes with the [Flor's Lab](https://www.youtube.com/@flordevlab) YouTub
 
 ```
 flordevlab/
-├── README.md
-├── LICENSE
-├── ep01-patched-aspnet-app/     # Episode 1: test an ASP.NET app, then patch it
-│   └── README.md                # what is vulnerable, what was fixed
-└── ...                          # one folder per episode or project
+├── patched/
+│   ├── ep01-<topic>/        e.g. ep01-aspnet-app
+│   ├── ep02-<topic>/
+│   └── README.md            what the Patched series is
+└── (other series later)
 ```
 
 ## Before and after
@@ -29,13 +29,13 @@ Each episode that breaks something and then fixes it has two Git tags:
 | `epXX-after`  | the app after the fixes (patched) |
 
 Compare them on GitHub to see exactly what changed:
-`https://github.com/fnezhadian/flordevlab/compare/ep01-before...ep01-after`
+`https://github.com/fnezhadian/flordevlab/compare/patched-ep01-before...patched-ep01-after`
 
 ## Episodes
 
 | # | Title | Video | Code |
 |---|-------|-------|------|
-| 1 | Patched: my ASP.NET app | _link after publishing_ | [`ep01-patched-aspnet-app`](./ep01-patched-aspnet-app) |
+| 1 | Patched: my ASP.NET app | _link after publishing_ | [`patched-ep01-aspnet-app`](./patched-ep01-aspnet-app) |
 
 ## Running a project locally
 
