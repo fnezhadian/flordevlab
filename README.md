@@ -12,35 +12,43 @@ Code that goes with the [Flor's Lab](https://www.youtube.com/@flordevlab) YouTub
 
 ```
 flordevlab/
-├── patched/
-│   ├── ep01-<topic>/        e.g. ep01-aspnet-app
-│   ├── ep02-<topic>/
-│   └── README.md            what the Patched series is
-└── (other series later)
+├── README.md
+├── LICENSE
+└── patched/                    # the "Patched" series
+    ├── README.md               # what the series is
+    ├── episode1/               # Patched EP 1
+    │   └── README.md           # what is vulnerable, what was fixed
+    └── episode2/               # one folder per episode
 ```
 
-## Before and after
+More series can get their own top-level folder later.
 
-Each episode that breaks something and then fixes it has two Git tags:
+## Series
 
-| Tag | Meaning |
-|-----|---------|
-| `epXX-before` | the app as it starts in the video (vulnerable) |
-| `epXX-after`  | the app after the fixes (patched) |
+### Patched
 
-Compare them on GitHub to see exactly what changed:
-`https://github.com/fnezhadian/flordevlab/compare/patched-ep01-before...patched-ep01-after`
-
-## Episodes
+Test an app, find what is wrong, then patch it. Each episode is a numbered folder under [`patched/`](./patched).
 
 | # | Title | Video | Code |
 |---|-------|-------|------|
-| 1 | Patched: my ASP.NET app | _link after publishing_ | [`patched-ep01-aspnet-app`](./patched-ep01-aspnet-app) |
+| 1 | Patched EP 1: My ASP.NET App | _link after publishing_ | [`episode1`](./patched/episode1) |
+
+## Before and after
+
+Each Patched episode has two Git tags:
+
+| Tag | Meaning |
+|-----|---------|
+| `patched-episodeN-before` | the app as it starts in the video (vulnerable) |
+| `patched-episodeN-after`  | the app after the fixes (patched) |
+
+Compare them on GitHub to see exactly what changed:
+`https://github.com/<your-username>/flordevlab/compare/patched-episode1-before...patched-episode1-after`
 
 ## Running a project locally
 
 1. Install the [.NET SDK](https://dotnet.microsoft.com/download) (version noted in each project's README).
-2. Clone the repo and open the project folder.
+2. Clone the repo and open the episode folder.
 3. Run `dotnet run`.
 
 ## License
