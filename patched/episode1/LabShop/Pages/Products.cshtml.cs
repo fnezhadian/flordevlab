@@ -30,10 +30,11 @@ public class ProductsModel : PageModel
             using var conn = _db.Open();
             using var cmd = conn.CreateCommand();
 
-            // VULNERABLE: the search text is glued straight into the SQL text
+            // PATCHED: the SQL text is fixed; the search term travels as a parameter
             cmd.CommandText =
                 "SELECT Name, Category, Price FROM Products " +
-                "WHERE Name LIKE '%" + Search + "%'";
+                "WHERE Name LIKE $term";
+            cmd.Parameters.AddWithValue("$term", "%" + Search + "%");
 
             using var reader = cmd.ExecuteReader();
             while (reader.Read())
@@ -44,10 +45,10 @@ public class ProductsModel : PageModel
                     reader.GetValue(2).ToString() ?? ""));
             }
         }
-        catch (SqliteException ex)
+        catch (SqliteException)
         {
-            // Also a problem: this shows raw database errors to the visitor
-            Error = ex.Message;
+            // PATCHED: never show raw database errors to the visitor
+            Error = "Something went wrong. Please try again.";
         }
     }
 }

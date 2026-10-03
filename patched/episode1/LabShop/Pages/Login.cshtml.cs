@@ -32,10 +32,12 @@ public class LoginModel : PageModel
         using (var conn = _db.Open())
         using (var cmd = conn.CreateCommand())
         {
-            // VULNERABLE: user input is glued straight into the SQL text
+            // PATCHED: the SQL text is fixed; values travel as parameters
             cmd.CommandText =
                 "SELECT Username, Role FROM Users " +
-                "WHERE Username = '" + Username + "' AND Password = '" + Password + "'";
+                "WHERE Username = $username AND Password = $password";
+            cmd.Parameters.AddWithValue("$username", Username ?? "");
+            cmd.Parameters.AddWithValue("$password", Password ?? "");
 
             using var reader = cmd.ExecuteReader();
             if (reader.Read())
