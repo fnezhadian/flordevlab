@@ -43,7 +43,7 @@ Each Patched episode has two Git tags:
 | `patched-episodeN-after`  | the app after the fixes (patched) |
 
 Compare them on GitHub to see exactly what changed:
-`https://github.com/<your-username>/flordevlab/compare/patched-episode1-before...patched-episode1-after`
+`https://github.com/fnezhadian/flordevlab/compare/patched-episode1-before...patched-episode1-after`
 
 ## Running a project locally
 
