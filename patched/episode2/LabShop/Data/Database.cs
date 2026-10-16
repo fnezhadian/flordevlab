@@ -1,3 +1,4 @@
+using LabShop.Services;
 using Microsoft.Data.Sqlite;
 
 namespace LabShop.Data;
@@ -5,6 +6,12 @@ namespace LabShop.Data;
 public class Database
 {
     private readonly string _connectionString = "Data Source=labshop.db";
+    private readonly PasswordService _passwords;
+
+    public Database(PasswordService passwords)
+    {
+        _passwords = passwords;
+    }
 
     public SqliteConnection Open()
     {
@@ -22,7 +29,7 @@ public class Database
             CREATE TABLE IF NOT EXISTS Users (
                 Id INTEGER PRIMARY KEY AUTOINCREMENT,
                 Username TEXT NOT NULL,
-                Password TEXT NOT NULL,
+                PasswordHash TEXT NOT NULL,
                 Role TEXT NOT NULL
             );
 
@@ -39,12 +46,28 @@ public class Database
         cmd.CommandText = "SELECT COUNT(*) FROM Users";
         if ((long)cmd.ExecuteScalar()! > 0) return;
 
-        cmd.CommandText = """
-            INSERT INTO Users (Username, Password, Role) VALUES
-                ('admin', 'S3cret-demo-pw', 'Admin'),
-                ('flor',  'demo1234',       'User'),
-                ('guest', 'guest',          'User');
+        // Demo only. In a real app never hard-code passwords.
+        var demoUsers = new (string Username, string Password, string Role)[]
+        {
+            ("admin", "S3cret-demo-pw", "Admin"),
+            ("flor",  "demo1234",       "User"),
+            ("guest", "guest",          "User"),
+        };
 
+        foreach (var (username, password, role) in demoUsers)
+        {
+            cmd.Parameters.Clear();
+            cmd.CommandText =
+                "INSERT INTO Users (Username, PasswordHash, Role) " +
+                "VALUES ($username, $hash, $role)";
+            cmd.Parameters.AddWithValue("$username", username);
+            cmd.Parameters.AddWithValue("$hash", _passwords.Hash(password));
+            cmd.Parameters.AddWithValue("$role", role);
+            cmd.ExecuteNonQuery();
+        }
+
+        cmd.Parameters.Clear();
+        cmd.CommandText = """
             INSERT INTO Products (Name, Category, Price) VALUES
                 ('Mechanical Keyboard',        'Hardware',    89.99),
                 ('USB-C Hub',                  'Hardware',    34.50),

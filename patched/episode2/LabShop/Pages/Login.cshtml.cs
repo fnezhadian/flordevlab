@@ -1,5 +1,6 @@
 using System.Security.Claims;
 using LabShop.Data;
+using LabShop.Services;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Mvc;
@@ -10,10 +11,12 @@ namespace LabShop.Pages;
 public class LoginModel : PageModel
 {
     private readonly Database _db;
+    private readonly PasswordService _passwords;
 
-    public LoginModel(Database db)
+    public LoginModel(Database db, PasswordService passwords)
     {
         _db = db;
+        _passwords = passwords;
     }
 
     [BindProperty]
@@ -28,27 +31,34 @@ public class LoginModel : PageModel
     {
         string? name = null;
         string? role = null;
+        string? hash = null;
 
         using (var conn = _db.Open())
         using (var cmd = conn.CreateCommand())
         {
-            // PATCHED: the SQL text is fixed; values travel as parameters
+            // PATCHED (Ep 2): find the user by username ONLY.
+            // The typed password never touches the SQL.
             cmd.CommandText =
-                "SELECT Username, Role FROM Users " +
-                "WHERE Username = $username AND Password = $password";
+                "SELECT Username, Role, PasswordHash FROM Users " +
+                "WHERE Username = $username";
             cmd.Parameters.AddWithValue("$username", Username ?? "");
-            cmd.Parameters.AddWithValue("$password", Password ?? "");
 
             using var reader = cmd.ExecuteReader();
             if (reader.Read())
             {
                 name = reader.GetString(0);
                 role = reader.GetString(1);
+                hash = reader.GetString(2);
             }
         }
 
-        if (name == null || role == null)
+        // Verify runs even when the user does not exist (hash is null),
+        // so the response time does not reveal which usernames are real.
+        var passwordOk = _passwords.Verify(hash, Password ?? "");
+
+        if (!passwordOk || name == null || role == null)
         {
+            // Same message for a wrong username and a wrong password
             Message = "Invalid username or password.";
             return Page();
         }

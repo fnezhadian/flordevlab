@@ -1,4 +1,5 @@
 using LabShop.Data;
+using LabShop.Services;
 using Microsoft.AspNetCore.Authentication.Cookies;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -7,6 +8,7 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddRazorPages();
 
 builder.Services.AddSingleton<Database>();
+builder.Services.AddSingleton<PasswordService>();
 builder.Services
     .AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
     .AddCookie(options => options.LoginPath = "/Login");
@@ -14,6 +16,20 @@ builder.Services
 var app = builder.Build();
 
 app.Services.GetRequiredService<Database>().Initialize();
+
+// NEW (Ep 2): one-time migration.  Run it with:  dotnet run -- migrate-passwords
+if (args.Contains("migrate-passwords"))
+{
+    var migrated = PasswordMigration.Run(
+        app.Services.GetRequiredService<Database>(),
+        app.Services.GetRequiredService<PasswordService>());
+
+    Console.WriteLine($"Migrated {migrated} user(s): plain text passwords are now hashes.");
+    return;
+}
+
+
+
 
 // Configure the HTTP request pipeline.
 if (!app.Environment.IsDevelopment())
