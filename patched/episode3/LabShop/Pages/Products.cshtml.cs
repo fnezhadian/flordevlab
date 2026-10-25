@@ -1,15 +1,16 @@
+using System.Data.Common;
 using LabShop.Data;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
-using Microsoft.Data.Sqlite;
+using Microsoft.EntityFrameworkCore;
 
 namespace LabShop.Pages;
 
 public class ProductsModel : PageModel
 {
-    private readonly Database _db;
+    private readonly LabDbContext _db;
 
-    public ProductsModel(Database db)
+    public ProductsModel(LabDbContext db)
     {
         _db = db;
     }
@@ -17,7 +18,7 @@ public class ProductsModel : PageModel
     [BindProperty(SupportsGet = true)]
     public string? Search { get; set; }
 
-    public List<(string Name, string Category, string Price)> Results { get; } = new();
+    public List<Product> Results { get; } = new();
 
     public string? Error { get; set; }
 
@@ -27,27 +28,19 @@ public class ProductsModel : PageModel
 
         try
         {
-            using var conn = _db.Open();
-            using var cmd = conn.CreateCommand();
+            // EF turns this into SQL and sends the pattern as a parameter.
+            // EF.Functions.Like keeps the old LIKE behavior (Contains() would be case-sensitive on SQLite).
+            var pattern = "%" + Search + "%";
 
-            // PATCHED: the SQL text is fixed; the search term travels as a parameter
-            cmd.CommandText =
-                "SELECT Name, Category, Price FROM Products " +
-                "WHERE Name LIKE $term";
-            cmd.Parameters.AddWithValue("$term", "%" + Search + "%");
-
-            using var reader = cmd.ExecuteReader();
-            while (reader.Read())
-            {
-                Results.Add((
-                    reader.GetString(0),
-                    reader.GetString(1),
-                    reader.GetValue(2).ToString() ?? ""));
-            }
+            Results.AddRange(
+                _db.Products
+                    .AsNoTracking()
+                    .Where(p => EF.Functions.Like(p.Name, pattern))
+                    .ToList());
         }
-        catch (SqliteException)
+        catch (DbException)
         {
-            // PATCHED: never show raw database errors to the visitor
+            // PATCHED (Ep 1): never show raw database errors to the visitor
             Error = "Something went wrong. Please try again.";
         }
     }

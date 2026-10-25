@@ -5,15 +5,16 @@ using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using Microsoft.EntityFrameworkCore;
 
 namespace LabShop.Pages;
 
 public class LoginModel : PageModel
 {
-    private readonly Database _db;
+    private readonly LabDbContext _db;
     private readonly PasswordService _passwords;
 
-    public LoginModel(Database db, PasswordService passwords)
+    public LoginModel(LabDbContext db, PasswordService passwords)
     {
         _db = db;
         _passwords = passwords;
@@ -29,34 +30,22 @@ public class LoginModel : PageModel
 
     public async Task<IActionResult> OnPostAsync()
     {
-        string? name = null;
-        string? role = null;
-        string? hash = null;
+        var username = Username ?? "";
 
-        using (var conn = _db.Open())
-        using (var cmd = conn.CreateCommand())
-        {
-            // PATCHED (Ep 2): find the user by username ONLY.
-            // The typed password never touches the SQL.
-            cmd.CommandText =
-                "SELECT Username, Role, PasswordHash FROM Users " +
-                "WHERE Username = $username";
-            cmd.Parameters.AddWithValue("$username", Username ?? "");
+        // CHANGED (Ep 3): EF instead of a hand-written query.
+        // Still username ONLY. The typed password never touches the query.
+        // Only the columns we need, same as the old SELECT.
+        var user = await _db.Users
+            .AsNoTracking()
+            .Where(u => u.Username == username)
+            .Select(u => new { u.Username, u.Role, u.PasswordHash })
+            .FirstOrDefaultAsync();
 
-            using var reader = cmd.ExecuteReader();
-            if (reader.Read())
-            {
-                name = reader.GetString(0);
-                role = reader.GetString(1);
-                hash = reader.GetString(2);
-            }
-        }
-
-        // Verify runs even when the user does not exist (hash is null),
+        // UNCHANGED from Ep 2: Verify runs even when the user does not exist (hash is null),
         // so the response time does not reveal which usernames are real.
-        var passwordOk = _passwords.Verify(hash, Password ?? "");
+        var passwordOk = _passwords.Verify(user?.PasswordHash, Password ?? "");
 
-        if (!passwordOk || name == null || role == null)
+        if (!passwordOk || user == null)
         {
             // Same message for a wrong username and a wrong password
             Message = "Invalid username or password.";
@@ -65,8 +54,8 @@ public class LoginModel : PageModel
 
         var claims = new List<Claim>
         {
-            new(ClaimTypes.Name, name),
-            new(ClaimTypes.Role, role)
+            new(ClaimTypes.Name, user.Username),
+            new(ClaimTypes.Role, user.Role)
         };
         var identity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
 

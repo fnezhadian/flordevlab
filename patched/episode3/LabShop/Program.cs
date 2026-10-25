@@ -1,35 +1,34 @@
 using LabShop.Data;
 using LabShop.Services;
 using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.EntityFrameworkCore;   // NEW (Ep 3)
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddRazorPages();
 
-builder.Services.AddSingleton<Database>();
 builder.Services.AddSingleton<PasswordService>();
+
+// NEW (Ep 3): EF Core replaces the hand-written Database class.
+// Same SQLite file as before, same relative path.
+builder.Services.AddDbContext<LabDbContext>(options =>
+    options.UseSqlite("Data Source=labshop.db"));
+
 builder.Services
     .AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
     .AddCookie(options => options.LoginPath = "/Login");
 
 var app = builder.Build();
 
-app.Services.GetRequiredService<Database>().Initialize();
-
-// NEW (Ep 2): one-time migration.  Run it with:  dotnet run -- migrate-passwords
-if (args.Contains("migrate-passwords"))
+// NEW (Ep 3): bring the database up to date from the migrations, then seed demo data once.
+// An existing database needs its first migration marked as applied (see scripts\04-baseline-ef-history.ps1).
+using (var scope = app.Services.CreateScope())
 {
-    var migrated = PasswordMigration.Run(
-        app.Services.GetRequiredService<Database>(),
-        app.Services.GetRequiredService<PasswordService>());
-
-    Console.WriteLine($"Migrated {migrated} user(s): plain text passwords are now hashes.");
-    return;
+    var db = scope.ServiceProvider.GetRequiredService<LabDbContext>();
+    db.Database.Migrate();
+    DbSeeder.Seed(db, scope.ServiceProvider.GetRequiredService<PasswordService>());
 }
-
-
-
 
 // Configure the HTTP request pipeline.
 if (!app.Environment.IsDevelopment())
