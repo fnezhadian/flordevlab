@@ -10,10 +10,12 @@
     <div class="mb-3">
         <label class="form-label">Username</label>
         <input asp-for="Username" class="form-control" />
+        <span asp-validation-for="Username" class="text-danger"></span>
     </div>
     <div class="mb-3">
         <label class="form-label">Password</label>
         <input asp-for="Password" type="password" class="form-control" />
+        <span asp-validation-for="Password" class="text-danger"></span>
     </div>
     <button class="btn btn-primary" type="submit">Sign in</button>
 </form>
@@ -21,4 +23,8 @@
 @if (Model.Message != null)
 {
     <p class="text-danger mt-3">@Model.Message</p>
+}
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
 }

@@ -1,3 +1,4 @@
+using System.ComponentModel.DataAnnotations;
 using System.Security.Claims;
 using LabShop.Data;
 using LabShop.Services;
@@ -20,16 +21,27 @@ public class LoginModel : PageModel
         _passwords = passwords;
     }
 
+    // NEW (Ep 4): allow list rules. Only these characters, only this long.
+    // Wrong characters get the same generic message as a wrong password (no hints for an attacker).
     [BindProperty]
+    [Required(ErrorMessage = "Enter your username.")]
+    [StringLength(50, ErrorMessage = "Username is too long.")]
+    [RegularExpression(@"^[A-Za-z0-9._-]+$", ErrorMessage = "Invalid username or password.")]
     public string Username { get; set; } = "";
 
     [BindProperty]
+    [Required(ErrorMessage = "Enter your password.")]
+    [StringLength(128, ErrorMessage = "Password is too long.")]
     public string Password { get; set; } = "";
 
     public string? Message { get; set; }
 
     public async Task<IActionResult> OnPostAsync()
     {
+        // NEW (Ep 4): the one line that matters. Not valid? Stop here.
+        // Nothing below runs, so the database never sees this request.
+        if (!ModelState.IsValid) return Page();
+
         var username = Username ?? "";
 
         // CHANGED (Ep 3): EF instead of a hand-written query.
