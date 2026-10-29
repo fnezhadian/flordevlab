@@ -31,7 +31,8 @@ Test an app, find what is wrong, then patch it. Each episode is a numbered folde
 
 | # | Title | Video | Code |
 |---|-------|-------|------|
-| 1 | Patched EP1: Fix the SQL Injection in My ASP.NET App | [_Youtube_](https://youtu.be/4kJn6YsEpTg) | [`episode1`](./patched/episode1) |
+| 1 | Patched EP1: Can someone login to your app without the right password? | [_Youtube_](https://www.youtube.com/watch?v=Ev9vu9wRfD4) | [`episode1`](./patched/episode1) |
+| 1 | Patched EP2: Are your passwords visible? | [_Youtube_](https://www.youtube.com/watch?v=uDXjeFNA0Fs) | [`episode2`](./patched/episode2) |
 
 ## Before and after
 
