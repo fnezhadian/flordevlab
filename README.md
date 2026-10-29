@@ -19,6 +19,7 @@ flordevlab/
     ├── episode1/               # Patched EP 1
     │   └── README.md           # what is vulnerable, what was fixed
     └── episode2/               # one folder per episode
+    │   └── README.md           # what is vulnerable, what was fixed
 ```
 
 More series can get their own top-level folder later.
@@ -31,8 +32,8 @@ Test an app, find what is wrong, then patch it. Each episode is a numbered folde
 
 | # | Title | Video | Code |
 |---|-------|-------|------|
-| 1 | Patched EP1: Can someone login to your app without the right password? | [_Youtube_](https://www.youtube.com/watch?v=Ev9vu9wRfD4) | [`episode1`](./patched/episode1) |
-| 1 | Patched EP2: Are your passwords visible? | [_Youtube_](https://www.youtube.com/watch?v=uDXjeFNA0Fs) | [`episode2`](./patched/episode2) |
+| 1 | EP1: Can someone login to your app without the right password? | [_Youtube_](https://www.youtube.com/watch?v=Ev9vu9wRfD4) | [`episode1`](./patched/episode1) |
+| 1 | EP2: Are your passwords visible? | [_Youtube_](https://www.youtube.com/watch?v=uDXjeFNA0Fs) | [`episode2`](./patched/episode2) |
 
 ## Before and after
 
