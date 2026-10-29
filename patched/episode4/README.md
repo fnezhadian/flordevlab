@@ -53,7 +53,7 @@ Demo accounts (fake): `admin` / `flor` / `guest`.
 ## Test cases
 
 1. Empty fields show `Enter your username.` and `Enter your password.`
-2. A username over 50 characters shows `Username is too long.`
+2. The Username box stops you at 50 characters (the page adds `maxlength` by itself). If you skip that limit, the server shows `Username is too long.`
 3. `admin' --` is rejected with the generic message
 4. With JavaScript off, the server still rejects them, and no SQL runs
 5. Normal login and a search for `desk` still work; `' OR 1=1 --` in the search shows `Use letters, numbers, spaces and hyphens.`
