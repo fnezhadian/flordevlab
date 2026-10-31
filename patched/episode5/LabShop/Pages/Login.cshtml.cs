@@ -6,10 +6,13 @@ using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using Microsoft.AspNetCore.RateLimiting;   // NEW (Ep 5)
 using Microsoft.EntityFrameworkCore;
 
 namespace LabShop.Pages;
 
+// NEW (Ep 5): the one line. Apply the "login" rate limit to this page.
+[EnableRateLimiting("login")]
 public class LoginModel : PageModel
 {
     private readonly LabDbContext _db;

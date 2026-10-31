@@ -1,7 +1,9 @@
 using LabShop.Data;
 using LabShop.Services;
 using Microsoft.AspNetCore.Authentication.Cookies;
-using Microsoft.EntityFrameworkCore;   // NEW (Ep 3)
+using Microsoft.EntityFrameworkCore;
+using System.Threading.RateLimiting;       // NEW (Ep 5)
+using Microsoft.AspNetCore.RateLimiting;    // NEW (Ep 5)
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -19,10 +21,44 @@ builder.Services
     .AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
     .AddCookie(options => options.LoginPath = "/Login");
 
+// NEW (Ep 5): a rate limiter that is already part of ASP.NET Core. No new package.
+// One policy called "login": a fixed window, 3 tries per minute for each client address.
+// It counts only POST requests (the sign-in tries). Opening the page is not counted.
+builder.Services.AddRateLimiter(options =>
+{
+    options.RejectionStatusCode = StatusCodes.Status429TooManyRequests;
+
+    // When the limit is reached: answer 429 and say how many seconds to wait.
+    options.OnRejected = async (context, cancellationToken) =>
+    {
+        var seconds = 60;
+        if (context.Lease.TryGetMetadata(MetadataName.RetryAfter, out var retryAfter))
+        {
+            seconds = (int)Math.Ceiling(retryAfter.TotalSeconds);
+            context.HttpContext.Response.Headers["Retry-After"] = seconds.ToString();
+        }
+        context.HttpContext.Response.ContentType = "text/plain";
+        await context.HttpContext.Response.WriteAsync(
+            $"429, Too Many Requests. Try again in {seconds} seconds.", cancellationToken);
+    };
+
+    options.AddPolicy("login", httpContext =>
+        httpContext.Request.Method == HttpMethods.Post
+            ? RateLimitPartition.GetFixedWindowLimiter(
+                httpContext.Connection.RemoteIpAddress?.ToString() ?? "unknown",
+                _ => new FixedWindowRateLimiterOptions
+                {
+                    PermitLimit = 3,
+                    Window = TimeSpan.FromMinutes(1),
+                    QueueLimit = 0
+                })
+            : RateLimitPartition.GetNoLimiter("not-a-sign-in-try"));
+});
+
 var app = builder.Build();
 
 // NEW (Ep 3): bring the database up to date from the migrations, then seed demo data once.
-// An existing database needs its first migration marked as applied (see scripts\04-baseline-ef-history.ps1).
+// An existing database needs its first migration marked as applied (see the baseline step in the production guide).
 using (var scope = app.Services.CreateScope())
 {
     var db = scope.ServiceProvider.GetRequiredService<LabDbContext>();
@@ -41,6 +77,9 @@ if (!app.Environment.IsDevelopment())
 app.UseHttpsRedirection();
 
 app.UseRouting();
+
+// NEW (Ep 5): turn the rate limiter on (after routing, so the page rule is known).
+app.UseRateLimiter();
 
 app.UseAuthentication();
 app.UseAuthorization();

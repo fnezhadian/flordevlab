@@ -9,9 +9,13 @@ A series from [Flor's Lab](https://www.youtube.com/@flordevlab): test an app, fi
 
 | # | Title | Folder | Tags |
 |---|-------|--------|------|
-| 1 | Patched EP1: Can someone login to your app without the right password? | [`episode1`](./episode1) | `patched-episode1-before`, `patched-episode1-after` |
-| 2 | Patched EP2: Are your passwords visible? | [`episode2`](./episode2) | `patched-episode2-before`, `patched-episode2-after` |
-| 3 | Patched EP3: Is your database code one typo away from a breach? | [`episode3`](./episode3) | `patched-episode3-before`, `patched-episode3-after` |
+| 1 | Patched EP 1: My ASP.NET App (SQL injection) | [`episode1`](./episode1) | `patched-episode1-before`, `patched-episode1-after` |
+| 2 | Patched EP 2: Plain Text Passwords | [`episode2`](./episode2) | `patched-episode2-before`, `patched-episode2-after` |
+| 3 | Patched EP 3: Moving to Entity Framework | [`episode3`](./episode3) | `patched-episode3-before`, `patched-episode3-after` |
+| 4 | Patched EP 4: Input Validation | [`episode4`](./episode4) | `patched-episode4-before`, `patched-episode4-after` |
+| 5 | Patched EP 5: Rate Limiting | [`episode5`](./episode5) | `patched-episode5-before`, `patched-episode5-after` |
+
+More episodes are coming. Stay tuned.
 
 ## Folder convention
 
