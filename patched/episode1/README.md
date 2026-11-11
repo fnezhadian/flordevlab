@@ -2,6 +2,8 @@
 
 Part of the **Patched** series from [Flor's Lab](https://www.youtube.com/@flordevlab).
 
+> 🎬 **Watch the video:** [Patched EP 1: Can someone log in to your app without the right password?](https://youtu.be/Ev9vu9wRfD4)
+
 > [!WARNING]
 > `LabShop` is **intentionally vulnerable**. Run it locally only. Never deploy it and never use real data or real passwords.
 
