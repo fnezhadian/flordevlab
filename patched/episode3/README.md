@@ -2,6 +2,8 @@
 
 Part of the **Patched** series from [Flor's Lab](https://www.youtube.com/@flordevlab).
 
+> 🎬 **Watch the video:** [Patched EP 3: Is your database code one typo away from a breach?](https://youtu.be/4Sna3TwqEgM)
+
 > [!NOTE]
 > Demo app with fake accounts. Run it locally only. Never deploy it and never use real data or real passwords.
 
