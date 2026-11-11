@@ -2,6 +2,8 @@
 
 Part of the **Patched** series from [Flor's Lab](https://www.youtube.com/@flordevlab).
 
+> 🎬 **Watch the video:** [Patched EP 2: Are your passwords visible?](https://youtu.be/uDXjeFNA0Fs)
+
 > [!WARNING]
 > The "before" version of `LabShop` stores passwords in **plain text on purpose**. Run it locally only. Never deploy it and never use real data or real passwords.
 
