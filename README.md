@@ -1,58 +1,26 @@
-# Flor's Lab
+# flordevlab
 
-**Build it. Test it. Secure it.**
-
-Code that goes with the [Flor's Lab](https://www.youtube.com/@flordevlab) YouTube channel: real ASP.NET / .NET apps, built, tested on screen, and then patched.
+Code for the [Flor's Lab](https://www.youtube.com/@flordevlab) YouTube channel: dev and security projects that are built, tested, and secured on screen.
 
 > [!WARNING]
-> Some projects in this repository are **intentionally vulnerable** so they can be tested and fixed on screen. They are for learning only.
-> **Never deploy them to a public server or use them with real data.** Run them locally only.
-
-## How the repo is organised
-
-```
-flordevlab/
-├── README.md
-├── LICENSE
-└── patched/                    # the "Patched" series
-    ├── README.md               # what the series is
-    ├── episode1/               # Patched EP 1
-    │   └── README.md           # what is vulnerable, what was fixed
-    └── episode2/               # one folder per episode
-    │   └── README.md           # what is vulnerable, what was fixed
-```
-
-More series can get their own top-level folder later.
+> Some projects are **intentionally vulnerable**. They are for learning only. Run them locally. Never deploy them publicly and never use real data.
 
 ## Series
 
-### Patched
+Each series has its own folder, and each folder has its own README with the episode list.
 
-Test an app, find what is wrong, then patch it. Each episode is a numbered folder under [`patched/`](./patched).
+| Series | About | Folder | Videos |
+|--------|-------|--------|--------|
+| **Patched** | Test an ASP.NET Core app, find what is wrong, then patch it | [`patched/`](./patched) | [Playlist](https://www.youtube.com/@flordevlab) |
 
-| # | Title | Video | Code |
-|---|-------|-------|------|
-| 1 | EP1: Can someone login to your app without the right password? | [_Youtube_](https://www.youtube.com/watch?v=Ev9vu9wRfD4) | [`episode1`](./patched/episode1) |
-| 1 | EP2: Are your passwords visible? | [_Youtube_](https://www.youtube.com/watch?v=uDXjeFNA0Fs) | [`episode2`](./patched/episode2) |
+*New series are added to this table as they start.*
 
-## Before and after
+## Run a project
 
-Each Patched episode has two Git tags:
-
-| Tag | Meaning |
-|-----|---------|
-| `patched-episodeN-before` | the app as it starts in the video (vulnerable) |
-| `patched-episodeN-after`  | the app after the fixes (patched) |
-
-Compare them on GitHub to see exactly what changed:
-`https://github.com/fnezhadian/flordevlab/compare/patched-episode1-before...patched-episode1-after`
-
-## Running a project locally
-
-1. Install the [.NET SDK](https://dotnet.microsoft.com/download) (version noted in each project's README).
-2. Clone the repo and open the episode folder.
-3. Run `dotnet run`.
+1. Install the .NET SDK. The required version is in each project's README.
+2. Clone the repo.
+3. Open the project folder and run `dotnet run`.
 
 ## License
 
-Code is released under the MIT License. See [LICENSE](./LICENSE).
+MIT
