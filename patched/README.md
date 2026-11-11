@@ -9,11 +9,11 @@ A series from [Flor's Lab](https://www.youtube.com/@flordevlab): test an app, fi
 
 | # | Question | What we patch | Folder | Tags | Video |
 |---|----------|---------------|--------|------|-------|
-| 1 | Can someone log in to your app without the right password? | SQL injection and broken access control | [`episode1`](./episode1) | `patched-episode1-before`, `patched-episode1-after` | [https://youtu.be/Ev9vu9wRfD4] |
-| 2 | Are your passwords visible? | Plain text passwords: hashing (PBKDF2) | [`episode2`](./episode2) | `patched-episode2-before`, `patched-episode2-after` | [https://youtu.be/uDXjeFNA0Fs] |
-| 3 | Is your database code one typo away from a breach? | Raw ADO.NET to Entity Framework | [`episode3`](./episode3) | `patched-episode3-before`, `patched-episode3-after` | [https://youtu.be/4Sna3TwqEgM] |
-| 4 | Does your app trust everything users type? | Input validation (allow list) | [`episode4`](./episode4) | `patched-episode4-before`, `patched-episode4-after` | [https://youtu.be/QlR5UudIdug] |
-| 5 | Can someone try a thousand passwords on your login? | Rate limiting on the login | [`episode5`](./episode5) | `patched-episode5-before`, `patched-episode5-after` | [https://youtu.be/JCPyT3ib76U] |
+| 1 | Can someone log in to your app without the right password? | SQL injection and broken access control | [`episode1`](./episode1) | `patched-episode1-before`, `patched-episode1-after` | [Watch](https://youtu.be/Ev9vu9wRfD4) |
+| 2 | Are your passwords visible? | Plain text passwords: hashing (PBKDF2) | [`episode2`](./episode2) | `patched-episode2-before`, `patched-episode2-after` | [Watch](https://youtu.be/uDXjeFNA0Fs) |
+| 3 | Is your database code one typo away from a breach? | Raw ADO.NET to Entity Framework | [`episode3`](./episode3) | `patched-episode3-before`, `patched-episode3-after` | [Watch](https://youtu.be/4Sna3TwqEgM) |
+| 4 | Does your app trust everything users type? | Input validation (allow list) | [`episode4`](./episode4) | `patched-episode4-before`, `patched-episode4-after` | [Watch](https://youtu.be/QlR5UudIdug) |
+| 5 | Can someone try a thousand passwords on your login? | Rate limiting on the login | [`episode5`](./episode5) | `patched-episode5-before`, `patched-episode5-after` | [Watch](https://youtu.be/JCPyT3ib76U) |
 
 More episodes are coming. Stay tuned.
 
